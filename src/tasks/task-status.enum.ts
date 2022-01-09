@@ -1,0 +1,5 @@
+export enum TASK_STATUS_ENUM {
+  OPEN = 'OPEN',
+  IN_PROGRESS = 'IN_PROGRESS',
+  DONE = 'DONE',
+}
