@@ -34,18 +34,9 @@ export class TasksService {
   //   });
   // }
 
-  // createTask(createTaskDto: CreateTaskDto): Task {
-  //   const { title, description } = createTaskDto;
-  //   const task: Task = {
-  //     id: uuid(),
-  //     title,
-  //     description,
-  //     status: TASK_STATUS_ENUM.OPEN,
-  //   };
-
-  //   this.tasks.push(task);
-  //   return task;
-  // }
+  async createTask(createTaskDto: CreateTaskDto): Promise<Task> {
+    return await this.tasksRepository.createTask(createTaskDto);
+  }
 
   async getTaskById(id: string): Promise<Task> {
     const task = await this.tasksRepository.findOne(id);
