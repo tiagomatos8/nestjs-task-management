@@ -17,10 +17,12 @@ export class TasksService {
     return this.tasks.filter((task) => {
       if (filerDto.search) {
         result =
-          task.title.includes(filerDto.search) ||
-          task.description.includes(filerDto.search);
+          task.title.toLowerCase().includes(filerDto.search.toLowerCase()) ||
+          task.description
+            .toLowerCase()
+            .includes(filerDto.search.toLowerCase());
       }
-      if (task.status) {
+      if (filerDto.status) {
         result = task.status === filerDto.status;
       }
       return result;
@@ -46,7 +48,9 @@ export class TasksService {
 
   deleteTask(id: string): void {
     const taskIdx: number = this.tasks.findIndex((task) => task.id === id);
-    this.tasks.splice(taskIdx, 1);
+    if (taskIdx > -1) {
+      this.tasks.splice(taskIdx, 1);
+    }
   }
 
   updateTask(id: string, status: TASK_STATUS_ENUM): Task {
