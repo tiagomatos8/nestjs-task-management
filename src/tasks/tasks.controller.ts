@@ -38,6 +38,11 @@ export class TasksController {
     return await this.tasksService.getTaskById(id);
   }
 
+  @Delete(':id')
+  async deleteTask(@Param('id') id: string): Promise<void> {
+    return await this.tasksService.deleteTask(id);
+  }
+
   // @Delete(':id')
   // deleteTask(@Param('id') id: string): void {
   //   return this.tasksService.deleteTask(id);
