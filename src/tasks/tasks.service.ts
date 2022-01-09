@@ -59,6 +59,19 @@ export class TasksService {
   //   this.tasks.splice(taskIdx, 1);
   // }
 
+  async updateTask(
+    id: string,
+    updateTaskStatusDto: UpdateTaskStatusDto,
+  ): Promise<Task> {
+    const { status } = updateTaskStatusDto;
+
+    const task: Task = await this.getTaskById(id);
+    task.status = status;
+
+    await this.tasksRepository.save(task);
+    return task;
+  }
+
   // updateTask(id: string, updateTaskStatusDto: UpdateTaskStatusDto): Task {
   //   const { status } = updateTaskStatusDto;
   //   const task: Task = this.getTaskById(id);
