@@ -1,4 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { AuthCredentialsDto } from './dto/auth-credentials.dto';
 import { UsersRepository } from './users.repository';
@@ -11,6 +15,14 @@ export class AuthService {
   ) {}
 
   async signUp(authCredentialsDto: AuthCredentialsDto): Promise<void> {
-    await this.usersRepository.createUser(authCredentialsDto);
+    try {
+      await this.usersRepository.createUser(authCredentialsDto);
+    } catch (error) {
+      if (error.code === '23505') {
+        throw new ConflictException();
+      } else {
+        throw new InternalServerErrorException();
+      }
+    }
   }
 }
