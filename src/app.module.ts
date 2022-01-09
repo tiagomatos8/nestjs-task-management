@@ -14,6 +14,7 @@ import { TasksModule } from './tasks/tasks.module';
       database: 'task-management',
       autoLoadEntities: true,
       synchronize: true,
+      logging: false,
     }),
   ],
   controllers: [],
