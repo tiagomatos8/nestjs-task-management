@@ -19,7 +19,7 @@ export class AuthService {
       await this.usersRepository.createUser(authCredentialsDto);
     } catch (error) {
       if (error.code === '23505') {
-        throw new ConflictException();
+        throw new ConflictException('Username already exists!');
       } else {
         throw new InternalServerErrorException();
       }
