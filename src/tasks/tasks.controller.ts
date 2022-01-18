@@ -40,20 +40,27 @@ export class TasksController {
   }
 
   @Get(':id')
-  async getTaskById(@Param('id') id: string): Promise<Task> {
-    return await this.tasksService.getTaskById(id);
+  async getTaskById(
+    @Param('id') id: string,
+    @GetUser() user: User,
+  ): Promise<Task> {
+    return await this.tasksService.getTaskById(id, user);
   }
 
   @Delete(':id')
-  async deleteTask(@Param('id') id: string): Promise<void> {
-    return await this.tasksService.deleteTask(id);
+  async deleteTask(
+    @Param('id') id: string,
+    @GetUser() user: User,
+  ): Promise<void> {
+    return await this.tasksService.deleteTask(id, user);
   }
 
   @Patch(':id/status')
   async updateTask(
     @Param('id') id: string,
     @Body() updateTaskStatusDto: UpdateTaskStatusDto,
+    @GetUser() user: User,
   ): Promise<Task> {
-    return await this.tasksService.updateTask(id, updateTaskStatusDto);
+    return await this.tasksService.updateTask(id, updateTaskStatusDto, user);
   }
 }
