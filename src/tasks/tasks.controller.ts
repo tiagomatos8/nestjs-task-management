@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  Logger,
   Param,
   Patch,
   Post,
@@ -21,6 +22,8 @@ import { TasksService } from './tasks.service';
 @Controller('tasks')
 @UseGuards(AuthGuard())
 export class TasksController {
+  private logger = new Logger(TasksController.name);
+
   constructor(private tasksService: TasksService) {}
 
   @Get()
@@ -28,6 +31,11 @@ export class TasksController {
     @Query() filterDto: GetTasksFilterDto,
     @GetUser() user: User,
   ): Promise<Task[]> {
+    this.logger.verbose(
+      `Retrieving tasks for user: ${user.username} | filter: ${JSON.stringify(
+        filterDto,
+      )}`,
+    );
     return await this.tasksService.getTasks(filterDto, user);
   }
 
@@ -36,6 +44,11 @@ export class TasksController {
     @Body() createTaskDto: CreateTaskDto,
     @GetUser() user: User,
   ): Promise<Task> {
+    this.logger.verbose(
+      `Creating task for user: ${user.username} | task: ${JSON.stringify(
+        createTaskDto,
+      )}`,
+    );
     return await this.tasksService.createTask(createTaskDto, user);
   }
 
@@ -44,6 +57,11 @@ export class TasksController {
     @Param('id') id: string,
     @GetUser() user: User,
   ): Promise<Task> {
+    this.logger.verbose(
+      `Getting task for user: ${user.username} | task: ${JSON.stringify({
+        id,
+      })}`,
+    );
     return await this.tasksService.getTaskById(id, user);
   }
 
@@ -52,6 +70,11 @@ export class TasksController {
     @Param('id') id: string,
     @GetUser() user: User,
   ): Promise<void> {
+    this.logger.verbose(
+      `Deleting task for user: ${user.username} | task: ${JSON.stringify({
+        id,
+      })}`,
+    );
     return await this.tasksService.deleteTask(id, user);
   }
 
@@ -61,6 +84,11 @@ export class TasksController {
     @Body() updateTaskStatusDto: UpdateTaskStatusDto,
     @GetUser() user: User,
   ): Promise<Task> {
+    this.logger.verbose(
+      `Updating task for user: ${user.username} | task: ${JSON.stringify({
+        id,
+      })} | values: ${JSON.stringify(updateTaskStatusDto)}`,
+    );
     return await this.tasksService.updateTask(id, updateTaskStatusDto, user);
   }
 }
